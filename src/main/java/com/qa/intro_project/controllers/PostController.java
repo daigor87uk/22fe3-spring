@@ -19,21 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.intro_project.data.entity.Post;
-import com.qa.intro_project.data.entity.User;
 import com.qa.intro_project.data.repository.PostRepository;
-import com.qa.intro_project.data.repository.TagRepository;
 
 @RestController
 @RequestMapping(path = "/post")
 public class PostController {
 
 	private PostRepository postRepository;
-	private TagRepository tagRepository;
 	
 	@Autowired
-	public PostController(PostRepository postRepository, TagRepository tagRepository) {
+	public PostController(PostRepository postRepository) {
 		this.postRepository = postRepository;
-		this.tagRepository = tagRepository;
 	}
 	
 	@GetMapping

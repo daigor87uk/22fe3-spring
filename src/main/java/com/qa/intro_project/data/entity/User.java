@@ -3,7 +3,6 @@ package com.qa.intro_project.data.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -19,8 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity 
 @Table(name = "user")
@@ -39,15 +35,7 @@ public class User {
 	@NotNull
 	@Email
 	private String email;
-	
-	@OneToOne(mappedBy = "user",
-			  optional = false,
-			  cascade = {CascadeType.ALL},
-			  targetEntity = UserProfile.class,
-			  fetch = FetchType.EAGER)
-	@JsonProperty(access = Access.READ_ONLY)
-	private UserProfile userProfile;
-	
+
 	// @OneToMany signifies a one to many relationship between user and posts where User is the 
 	// parent of the relationship. Post owns the relationship as it stores the id of the user
 	// - mappedBy signifies the name of the field in Post.class which owns the relationship
@@ -76,14 +64,6 @@ public class User {
 		this.posts = new ArrayList<>();
 	}
 	
-	public User(String username, String email, UserProfile userProfile) {
-		super();
-		this.username = username;
-		this.email = email;
-		this.posts = new ArrayList<>();
-		this.userProfile = userProfile;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -114,14 +94,6 @@ public class User {
 	
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
-	}
-	
-	public UserProfile getUserProfile() {
-		return userProfile;
-	}
-
-	public void setUserProfile(UserProfile userProfile) {
-		this.userProfile = userProfile;
 	}
 
 	@Override
