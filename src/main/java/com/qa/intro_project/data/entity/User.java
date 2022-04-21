@@ -40,7 +40,7 @@ public class User {
 	// parent of the relationship. Post owns the relationship as it stores the id of the user
 	// - mappedBy signifies the name of the field in Post.class which owns the relationship
 	// - targetEntity specifies the class that is being mapped
-	@OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.LAZY)
 	private List<Post> posts;
 		
 	protected User() {

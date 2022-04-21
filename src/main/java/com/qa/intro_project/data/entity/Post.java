@@ -33,7 +33,7 @@ public class Post {
 	@NotBlank
 	private String content;
 	
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	// - `optional` set to true indicates this is not a required relationship (a user may not have any posts)
 	// - setting to EAGER fetch otherwise serialisation error occurs due to the proxy object Hibernate uses
 	// - fetch type can be set to lazy when using DTOs
