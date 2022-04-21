@@ -20,46 +20,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.intro_project.data.entity.Post;
 import com.qa.intro_project.data.entity.User;
-import com.qa.intro_project.data.repository.PostRepository;
 import com.qa.intro_project.data.repository.UserRepository;
+import com.qa.intro_project.service.UserService;
 
 @RestController
 @RequestMapping(path = "/user") // accepts requests at localhost:8080/user
 public class UserController {
 	
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	@Autowired // Instructs the Spring IoC container to inject the required dependency
-	public UserController(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<User>> getUsers() {
-		return ResponseEntity.ok(userRepository.findAll());
+		return ResponseEntity.ok(userService.readAll());
 	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<User> getUser(@PathVariable(name = "id") int id) {
-		Optional<User> user = userRepository.findById(id);
-		
-		if (user.isPresent()) {
-			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-		}
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		User user = userService.readById(id);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}/posts")
 	public ResponseEntity<List<Post>> getUserPosts(@PathVariable(name = "id") int userId) {
-		Optional<User> user = userRepository.findById(userId);
-		
-		if (user.isPresent()) return ResponseEntity.ok(user.get().getPosts());
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		List<Post> posts = userService.readPostsByUserId(userId);
+		return ResponseEntity.ok(posts);
 	}
 	
 	@PostMapping
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-		User newUser = userRepository.save(user);
+		User newUser = userService.create(user);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", "http://localhost:8080/user/" + newUser.getId());
