@@ -41,7 +41,6 @@ public class User {
 	// - mappedBy signifies the name of the field in Post.class which owns the relationship
 	// - targetEntity specifies the class that is being mapped
 	@OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.EAGER)
-	@JsonIgnore // stops this field from being serialised or deserialised during a request
 	private List<Post> posts;
 		
 	protected User() {

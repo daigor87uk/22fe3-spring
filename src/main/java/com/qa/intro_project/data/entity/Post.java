@@ -40,7 +40,6 @@ public class Post {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	// - `name` is the name of the column in the Post table that stores the user id
 	// - `referencedColumnName` is the name of the primary key field in the User table
-	@JsonIgnore
 	private User user;
 	
 	protected Post() {
